@@ -24,10 +24,14 @@ In the following discussion I will consider the [rubric points](https://review.u
 
 The code for this step is contained in the first code cell in section "Camera calibration using chessboard images" of the IPython notebook located in "./adv_lane_fin.ipynb". I used the code provided by Udacity in the IPython notebook located in "./examples/example.ipynb".  
 
-The code starts by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here the code is assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time the code successfully detects all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection. 
-Here is an unsuccessful and a successful chessboard detection:
+The code starts by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here the code is assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time the code successfully detects all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.
+I added some code to save all successful or unsuccessful chessboard detections (at the moment this code is commented out). The images are located in "./output_images" and named calibrationX, where X runs from 1 to 20.
+Here is an example image of an unsuccessful and a successful chessboard detection.
 
+Unsuccessful chessboard detection:
 ![Unsuccessful chessboard detection](./output_images/calibration1)
+
+Successful chessboard detection:
 ![Successful chessboard detection](./output_images/calibration2)
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
