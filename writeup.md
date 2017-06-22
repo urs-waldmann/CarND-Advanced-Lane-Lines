@@ -152,9 +152,13 @@ Here is the final result of the test image:
 
 ## Pipeline (video)
 
-The code to run the pipeline on the project video can be found in the cells in section "Run on videos". I copied the pipeline for the single images into a function called `process_image()`. The code lines to edit save and watch the video clip is basically from project 1. I added the code in order to fit it to the current implementation.
+The code to run the pipeline on the project video can be found in the cells in section "Run on videos". I copied the pipeline for the single images into a function called `process_image()`. The code lines to edit, save and watch the video clip is basically from project 1. I added the code in order to fit it to the current implementation.
 Here's a [link to my video result](./final_project_video.mp4). Enjoy!
 
 ## Discussion
 
+As we can see in the final project video provided in the previous section, my pipeline works well on the project video. It does not work well on the two challenge videos though. In this section I want to adress some of the reasons. Please note that this list of troubleshooting points is not complete.
 
+First of all the calibration and thus the undistortion process is not 100% perfect. From the undistorted chessboard image further up in this report we see that the check pattern is not 100% rectangular as it is supposed to be.
+Furthermore the binary image can be improved furthermore. Additional thresholding techniques can be applied and of course a better combination of those techniques can be used in order to obtain the binary image. This is very important because this stabilizes the robustness of the pipeline very much. A very good result in this part leads to a stable regocnition of the lane lines under very different and difficult sun, weather and light conditions. It also discards lane line-like objects as a potential candidate for the lane line identification.
+A last point of improvement that I want to mention here is my perspective transform. It is very rude. Rude in the sense that I hardcoded the source and destination points of the transform. A better way is to intelligently implement a method that regocnizes the potential lane lines and chooses the source and destination points on that basis in order to get exactly parallel lane lines after a perspective transform of straight lane lines.
