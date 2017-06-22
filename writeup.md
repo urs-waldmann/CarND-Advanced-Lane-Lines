@@ -63,7 +63,7 @@ Binary road image:
 
 #### 3. Perspective transform
 
-The code for my perspective transform includes a function called `warper()`, which appears in the section "Helper functions".  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose to hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `warper()`, which appears in the section "Helper functions" and which I took from Udacity's example folder, i.e. the code for my helper function `warper()` is from "./examples/example.py".  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points. I chose to hardcode the source and destination points in the following manner:
 
 ```python
 src = np.float32(
@@ -90,19 +90,33 @@ Thus the following source and destination points are:
 In Appendix A at the end of my IPython notebook I experimented with the points in order to achieve a good working result.
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image that has only straight lane lines and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![Warped road image](./output_images/warped_straight_lines1)
+![Warped road image 1](./output_images/warped_straight_lines1)
 
 The lines are not perfectly parallel, especially if we use the same source and destination points for another test image that has only straight lane lines:
 
 ![Warped road image 2](./output_images/warped_straight_lines2)
 
 but the coice of source and destination points is good enough as we will see in the final project video.
+For completeness here is the warped image of the same road image that I displayed in the other sections:
 
-#### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
+![Warped road image 3](./output_images_warped_test1)
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+#### 4. Lane line pixels detection
 
-![alt text][image5]
+The code of this section is from Udacity, lesson 13 - Project: Advanced Lane Finding, section 33: Finding the Lines. There is no helper function for this part of the code and the code itself can be found in the cell in section "Pipeline (single images)".
+In order to detect the lane lines the code takes a histogram where it adds up the pixel values along each column in the image:
+```python
+histogram = np.sum(binary_warped[binary_warped.shape[0]//2:,:], axis=0)
+```
+It then identifies the two most prominent peaks in this histogram:
+```python
+midpoint = np.int(histogram.shape[0]/2)
+leftx_base = np.argmax(histogram[:midpoint])
+rightx_base = np.argmax(histogram[midpoint:]) + midpoint
+```
+and takes the position of them as a starting point for the left and right lane line. From that point, the code uses a sliding window, placed around the line centers, to find and follow the lines up to the top of the frame. At the end it fits a polynomial through the detected lane line pixels with `np.polyfit()` for the left and the right lane line pixels seperately. Here is the result of the test image that we also used previously to display our results. The detected pixels of the left and right lane line are red and blue respectively, the sliding window is shown in green and the polynomial fit of the left and right lane line is yellow.
+
+![Polynomialfit road image](./output_images/polyfit_test1.png)
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
