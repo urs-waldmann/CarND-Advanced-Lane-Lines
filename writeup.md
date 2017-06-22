@@ -143,13 +143,14 @@ curverad = (left_curverad + right_curverad) / 2
 
 #### 6. Project lane lines back on original road image
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+The code of this section is from Udacity, lesson 13 - Project: Advanced Lane Finding, section 36: Tips and Tricks for the Project. There is no helper function for this part of the code and the code itself can be found in the cell in section "Pipeline (single images)".
+The code projects the detected lane lines back on the original image with the helper function `warper()`. This time the source and destination points are switched in order to get the inverse perspective transform matrix.
+I added some code in order to write e.g. the radius of curvature on the final image with the function `cv2.putText()`.
+Here is the final result of the test image:
 
-![alt text][image6]
+![Final road image](./output_images/final_test1)
 
----
-
-### Pipeline (video)
+## Pipeline (video)
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
