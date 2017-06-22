@@ -88,9 +88,15 @@ Thus the following source and destination points are:
 | 1127, 720     | 960, 720      |
 
 In Appendix A at the end of my IPython notebook I experimented with the points in order to achieve a good working result.
-I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
+I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image that has only straight lane lines and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![Warped road image](./output_images/warped_test1)
+![Warped road image](./output_images/warped_straight_lines1)
+
+The lines are not perfectly parallel, especially if we use the same source and destination points for another test image that has only straight lane lines:
+
+![Warped road image 2](./output_images/warped_straight_lines2)
+
+but the coice of source and destination points is good enough as we will see in the final project video.
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
