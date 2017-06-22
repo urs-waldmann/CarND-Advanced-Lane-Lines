@@ -18,9 +18,7 @@ In the following discussion I will consider the [rubric points](https://review.u
 
 ---
 
-## Camera Calibration
-
-### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
+## Camera calibration using chessboard images
 
 The code for this step is contained in the first code cell in section "Camera calibration using chessboard images" of the IPython notebook located in "./adv_lane_fin.ipynb". I used the code provided by Udacity in the IPython notebook located in "./examples/example.ipynb".  
 
@@ -34,16 +32,27 @@ Unsuccessful chessboard detection:
 Successful chessboard detection:
 ![Successful chessboard detection](./output_images/calibration2)
 
-I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
+## Build an advanced lane line finding pipeline
 
-![alt text][image1]
+In order to write a working pipline I first defined some helper functions that you can find in the sectin "helper function". I will discuss them in the sections where I used them.
+In general I first built my pipeline step by step applying each step to the test images located in "./test_images". When I was satisfied with the current step I saved the modified test images in the folder "./output_images". All the code for saving test images is commented out at the moment.
+In addition I added a visualization at the end of this section displaying every step on an example road image.
 
 ### Pipeline (single images)
 
-#### 1. Provide an example of a distortion-corrected image.
+#### Distortion correction
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image2]
+For this purpose I defined the helper function called `cal_undistort()`. This helper function uses the `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function. Then it applies this distortion correction to the test images called `img` using the `cv2.undistort()` function. Applying this helper function to one of the test images leads to this result:
+
+![Undistorted road image][./output_images/undistorted_test1]
+
+In order to check wether the distortion correction is good enough I also performed an undistortion on a chessboard image for reference.
+
+Distorted chessboard image:
+![Distorted chessboard image](./camera_cal/calibration1)
+
+Undistorted chessboard image:
+![Undistorted chessboard image](./output_images/undistorted_chessboard)
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
