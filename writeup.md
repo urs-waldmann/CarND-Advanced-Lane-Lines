@@ -34,7 +34,7 @@ Successful chessboard detection:
 
 ## Build an advanced lane line finding pipeline
 
-In order to write a working pipline I first defined some helper functions that you can find in the sectin "helper function". I will discuss them in the sections where I used them.
+In order to write a working pipline I first defined some helper functions that you can find in the sectin "Helper functions". I will discuss them in the sections where I used them.
 In general I first built my pipeline step by step applying each step to the test images located in "./test_images". When I was satisfied with the current step I saved the modified test images in the folder "./output_images". All the code for saving test images is commented out at the moment.
 In addition I added a visualization at the end of this section displaying every step on an example road image.
 
@@ -56,40 +56,41 @@ Undistorted chessboard image:
 
 #### 2. Thresholds
 
-I used a combination of color and gradient thresholds to generate a binary image. Therefore I defined some helper functions in the section "helper functions". `abs_sobel_thresh()` computes the absolute value of the Sobel operator in x- or y- direction. Therefore the image `img` is converted into a grayscale image, the Sobel operator in x- or y-direction is performed and then the absolute value is taken. `mag_thresh()` computes the magnitude of the Sobel operator and and works similarly to `abs_sobel_thresh()`. Only instead of taking the absolute value of the Sobel operator it takes computes the magnitude. Another helper function that works similarly is `dir_threshold()`. This function computes the direction of the Sobel operator. `rgb_threshold()` and `hls_threshold()` take in an image `img` and return only one of the three color channels of the original image. To get the best result I combined the color and gradient thresholds in different ways and experimented a little bit with them. I picked a logic combination of the R-, G-, H- & S-channel plus the absolute value of the Sobel operator in x- and y-direction for my final pipeline. Here's an example of my output for this step. The image is the same test image as displayed for distortion correction.
+I used a combination of color and gradient thresholds to generate a binary image. Therefore I defined some helper functions in the section "helper functions". `abs_sobel_thresh()` computes the absolute value of the Sobel operator in x- or y- direction. Therefore the image `img` is converted into a grayscale image, the Sobel operator in x- or y-direction is performed and then the absolute value is taken. `mag_thresh()` computes the magnitude of the Sobel operator and works similarly to `abs_sobel_thresh()`. Only instead of taking the absolute value of the Sobel operator it computes the magnitude. Another helper function that works similarly is `dir_threshold()`. This function computes the direction of the Sobel operator. `rgb_threshold()` and `hls_threshold()` take in an image `img` and return only one of the three color channels of the original image. To get the best result I combined the color and gradient thresholds in different ways and experimented a little bit with them. I picked a logic combination of the R-, G-, H- & S-channel plus the absolute value of the Sobel operator in x- and y-direction for my final pipeline. Here's an example of my output for this step. The image is the same test image as displayed for distortion correction.
 
 Binary road image:
 ![Binary road image](./output_images/binary_test1)
 
-#### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
+#### 3. Perspective transform
 
-The code for my perspective transform includes a function called `warper()`, which appears in lines 1 through 8 in the file `example.py` (output_images/examples/example.py) (or, for example, in the 3rd code cell of the IPython notebook).  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose the hardcode the source and destination points in the following manner:
+The code for my perspective transform includes a function called `warper()`, which appears in the section "Helper functions".  The `warper()` function takes as inputs an image (`img`), as well as source (`src`) and destination (`dst`) points.  I chose to hardcode the source and destination points in the following manner:
 
 ```python
 src = np.float32(
-    [[(img_size[0] / 2) - 55, img_size[1] / 2 + 100],
-    [((img_size[0] / 6) - 10), img_size[1]],
-    [(img_size[0] * 5 / 6) + 60, img_size[1]],
-    [(img_size[0] / 2 + 55), img_size[1] / 2 + 100]])
+    [[585, 460],
+    [695, 460],
+    [203, 720],
+    [1127, 720]])
 dst = np.float32(
-    [[(img_size[0] / 4), 0],
-    [(img_size[0] / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), img_size[1]],
-    [(img_size[0] * 3 / 4), 0]])
+    [[320,0],
+    [960,0],
+    [320,720],
+    [960,720]])
 ```
 
-This resulted in the following source and destination points:
+Thus the following source and destination points are:
 
 | Source        | Destination   | 
 |:-------------:|:-------------:| 
 | 585, 460      | 320, 0        | 
+| 695, 460      | 960, 0        |
 | 203, 720      | 320, 720      |
 | 1127, 720     | 960, 720      |
-| 695, 460      | 960, 0        |
 
+In Appendix A at the end of my IPython notebook I experimented with the points in order to achieve a good working result.
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][image4]
+![Warped road image](./output_images/warped_test1)
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
