@@ -99,7 +99,7 @@ The lines are not perfectly parallel, especially if we use the same source and d
 but the coice of source and destination points is good enough as we will see in the final project video.
 For completeness here is the warped image of the same road image that I displayed in the other sections:
 
-![Warped road image 3](./output_images_warped_test1)
+![Warped road image 3](./output_images/warped_test1)
 
 #### 4. Lane line pixels detection
 
@@ -118,11 +118,30 @@ and takes the position of them as a starting point for the left and right lane l
 
 ![Polynomialfit road image](./output_images/polyfit_test1.png)
 
-#### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+#### 5. Radius of curvature
 
-I did this in lines # through # in my code in `my_other_file.py`
+The code of this section is from Udacity, lesson 13 - Project: Advanced Lane Finding, section 35: Measuring Curvature. There is no helper function for this part of the code and the code itself can be found in the cell in section "Pipeline (single images)".
+To measure the radius of curvature the code assumes the curves to be part of a perfect circle. Furthermore for the purpose of this project it is good enough to assume that the lane lines are about 30 meters long and 3.7 meters wide:
+```python
+ym_per_pix = 30/720
+xm_per_pix = 3.7/640
+```
+To obtain the radius of curvature in real world space, i.e. meters, the code fits a new polynomial where it converts the image pixels in meters:
+```python
+left_fit_cr = np.polyfit(lefty*ym_per_pix, leftx*xm_per_pix, 2)
+right_fit_cr = np.polyfit(righty*ym_per_pix, rightx*xm_per_pix, 2)
+```
+and calculates then the radius of curvature given by the equation in lesson 13 - Project: Advanced Lane Finding, section 35: Measuring Curvature:
+```python
+left_curverad = ((1 + (2*left_fit_cr[0]*y_eval*ym_per_pix + left_fit_cr[1])**2)**1.5) / np.absolute(2*left_fit_cr[0])
+right_curverad = ((1 + (2*right_fit_cr[0]*y_eval*ym_per_pix + right_fit_cr[1])**2)**1.5) / np.absolute(2*right_fit_cr[0])
+```
+I then added a simple line of code where the final radius of curvature is calculated by taking the mean of the left and right lane radius of curvature:
+```python
+curverad = (left_curverad + right_curverad) / 2
+```
 
-#### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+#### 6. Project lane lines back on original road image
 
 I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
 
