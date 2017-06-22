@@ -40,11 +40,11 @@ In addition I added a visualization at the end of this section displaying every 
 
 ### Pipeline (single images)
 
-#### Distortion correction
+#### 1. Distortion correction
 
 For this purpose I defined the helper function called `cal_undistort()`. This helper function uses the `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function. Then it applies this distortion correction to the test images called `img` using the `cv2.undistort()` function. Applying this helper function to one of the test images leads to this result:
 
-![Undistorted road image][./output_images/undistorted_test1]
+![Undistorted road image](./output_images/undistorted_test1)
 
 In order to check wether the distortion correction is good enough I also performed an undistortion on a chessboard image for reference.
 
@@ -54,11 +54,12 @@ Distorted chessboard image:
 Undistorted chessboard image:
 ![Undistorted chessboard image](./output_images/undistorted_chessboard)
 
-#### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
+#### 2. Thresholds
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+I used a combination of color and gradient thresholds to generate a binary image. Therefore I defined some helper functions in the section "helper functions". `abs_sobel_thresh()` computes the absolute value of the Sobel operator in x- or y- direction. Therefore the image `img` is converted into a grayscale image, the Sobel operator in x- or y-direction is performed and then the absolute value is taken. `mag_thresh()` computes the magnitude of the Sobel operator and and works similarly to `abs_sobel_thresh()`. Only instead of taking the absolute value of the Sobel operator it takes computes the magnitude. Another helper function that works similarly is `dir_threshold()`. This function computes the direction of the Sobel operator. `rgb_threshold()` and `hls_threshold()` take in an image `img` and return only one of the three color channels of the original image. To get the best result I combined the color and gradient thresholds in different ways and experimented a little bit with them. I picked a logic combination of the R-, G-, H- & S-channel plus the absolute value of the Sobel operator in x- and y-direction for my final pipeline. Here's an example of my output for this step. The image is the same test image as displayed for distortion correction.
 
-![alt text][image3]
+Binary road image:
+![Binary road image](./output_images/binary_test1)
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
