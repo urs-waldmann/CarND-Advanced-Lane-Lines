@@ -49,7 +49,7 @@ For this purpose I defined the helper function called `cal_undistort()`. This he
 In order to check wether the distortion correction is good enough I also performed an undistortion on a chessboard image for reference.
 
 Distorted chessboard image:
-![Distorted chessboard image](./camera_cal/calibration1)
+![Distorted chessboard image](./camera_cal/calibration1.jpg)
 
 Undistorted chessboard image:
 ![Undistorted chessboard image](./output_images/undistorted_chessboard)
