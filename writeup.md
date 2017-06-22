@@ -152,10 +152,9 @@ Here is the final result of the test image:
 
 ## Pipeline (video)
 
-Here's a [link to my video result](./final_project_video.mp4)
+The code to run the pipeline on the project video can be found in the cells in section "Run on videos". I copied the pipeline for the single images into a function called `process_image()`. The code lines to edit save and watch the video clip is basically from project 1. I added the code in order to fit it to the current implementation.
+Here's a [link to my video result](./final_project_video.mp4). Enjoy!
 
 ## Discussion
 
-#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
